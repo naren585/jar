@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Memory Jar</title>
+<style>
+    body {background:#fff2fb; display:flex; justify-content:center; align-items:center; height:100vh; font-family:'Poppins',sans-serif;}
+    .jar {background:white; width:340px; padding:25px; border-radius:20px; box-shadow:0 10px 24px rgba(200,100,160,.18);}
+    .title {text-align:center; color:#b65ea5; font-size:20px; margin-bottom:15px;}
+    .note {padding:10px; background:#ffe4f4; margin:8px 0; border-radius:10px; color:#6e5471;}
+    .add {margin-top:15px; display:flex; gap:8px;}
+    input {flex:1; padding:8px; border-radius:10px; border:1px solid #ffd0eb;}
+    button {padding:8px 14px; border:none; background:#ffb6da; border-radius:10px; cursor:pointer;}
+</style>
+</head>
+<body>
+
+<div class="jar">
+    <div class="title">Memory Jar</div>
+    <div id="list"></div>
+
+    <div class="add">
+        <input id="txt" placeholder="add a memory">
+        <button onclick="add()">add</button>
+    </div>
+</div>
+
+<script>
+function load(){ return JSON.parse(localStorage.getItem("jar") || "[]"); }
+function save(data){ localStorage.setItem("jar", JSON.stringify(data)); }
+
+function add(){
+    let t = document.getElementById("txt").value.trim();
+    if(!t) return;
+    const d = load(); d.push(t); save(d);
+    document.getElementById("txt").value=""; render();
+}
+
+function render(){
+    const d = load();
+    const box = document.getElementById("list");
+    box.innerHTML = "";
+    d.forEach(m => box.innerHTML += `<div class='note'>${m}</div>`);
+}
+render();
+</script>
+
+</body>
+</html>
